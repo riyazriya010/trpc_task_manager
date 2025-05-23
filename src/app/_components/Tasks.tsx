@@ -7,18 +7,20 @@ import Pagination from "./ui/Pagination";
 import { api } from "~/trpc/react";
 import { ToastContainer, Slide, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from "sweetalert2";
+import Table from "./ui/Table";
 
-const statusColors: Record<string, string> = {
-    pending: 'bg-yellow-300/20 text-yellow-200 border border-yellow-400/30',
-    in_progress: 'bg-blue-400/20 text-blue-300 border border-blue-500/30',
-    completed: 'bg-emerald-400/20 text-emerald-300 border border-emerald-500/30',
-};
+// const statusColors: Record<string, string> = {
+//     pending: 'bg-yellow-300/20 text-yellow-200 border border-yellow-400/30',
+//     in_progress: 'bg-blue-400/20 text-blue-300 border border-blue-500/30',
+//     completed: 'bg-emerald-400/20 text-emerald-300 border border-emerald-500/30',
+// };
 
-const statusFlow: Record<string, string> = {
-    pending: 'in_progress',
-    in_progress: 'completed',
-    completed: 'in_progress',
-};
+// const statusFlow: Record<string, string> = {
+//     pending: 'in_progress',
+//     in_progress: 'completed',
+//     completed: 'in_progress',
+// };
 
 // in your tRPC backend
 type Task = {
@@ -30,20 +32,7 @@ type Task = {
     createdAt: Date;
 };
 
-
-// const getAvailableStatuses = (current: string) => {
-//     switch (current) {
-//         case 'pending':
-//             return ['in_progress', 'completed'];
-//         case 'in_progress':
-//             return ['pending', 'completed'];
-//         case 'completed':
-//             return ['in_progress'];
-//         default:
-//             return [];
-//     }
-// };
-
+const headers = ["Icon", "Title", "Description", "Status"]
 
 
 export default function Tasks() {
@@ -60,10 +49,10 @@ export default function Tasks() {
     const { data: tasks } = api.task.getAll.useQuery();
     //Delete Data
     const deleteTask = api.task.delete.useMutation({
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success('Task Deleted')
         },
-        onError: (error) => {
+        onError: () => {
             toast.error('Error deleting task')
         }
     });
@@ -137,9 +126,20 @@ export default function Tasks() {
         }
     }
 
-
-
-
+    const handleDelete = async (id: string) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "this action is irreversible",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteTask.mutate({ id: id })
+                Swal.fire('Deleted!', 'Task has been deleted.', 'success');
+            }
+        })
+    }
 
 
     return (
@@ -167,7 +167,7 @@ export default function Tasks() {
                         </button>
                     </Link>
 
-                    <div className="w-full max-w-3xl space-y-4">
+                    {/* <div className="w-full max-w-3xl space-y-4">
                         {tasks && currentTasks.map(t => (
                             <div
                                 key={t.id} className="flex items-center justify-between border border-white/20 p-4 rounded-lg bg-white/5 backdrop-blur-sm"
@@ -211,8 +211,7 @@ export default function Tasks() {
                                         className="bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/30 px-4 py-2 rounded-full text-sm transition"
                                         onClick={(e) => {
                                             e.stopPropagation()
-                                            // handleDelete(t.id)
-                                            deleteTask.mutate({ id: t.id })
+                                            handleDelete(t.id)
                                         }}
                                     >
                                         Delete
@@ -220,7 +219,9 @@ export default function Tasks() {
                                 </div>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
+
+                    <Table data={currentTasks} headers={headers} signUrls={signedUrls} onDelete={(id) => handleDelete(id)} />
 
                     {/* Pagination Controll */}
                     <Pagination

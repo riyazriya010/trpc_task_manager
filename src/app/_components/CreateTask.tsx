@@ -76,6 +76,15 @@ export default function CreateTask() {
                 setTimeout(() => {
                     router.push('/pages/tasks')
                 }, 2000)
+            } else {
+                createTask.mutate({
+                    title: data.title,
+                    description: data.description
+                })
+                toast.success('Task Created')
+                setTimeout(() => {
+                    router.push('/pages/tasks')
+                }, 2000)
             }
         } catch (error: unknown) {
             console.log('form submit error: ', error)
