@@ -15,7 +15,8 @@ export async function POST(req: Request) {
     await b2.authorize();
 
     const { data: uploadData } = await b2.getUploadUrl({
-      bucketId: process.env.B2_BUCKET_ID!,
+      // bucketId: process.env.B2_BUCKET_ID!,
+      bucketId: "bbff04e19a9ef1c0926e081a",
     });
 
     await b2.uploadFile({
@@ -29,15 +30,16 @@ export async function POST(req: Request) {
 
     // Generate signed download URL for private access
     const { data: authData } = await b2.getDownloadAuthorization({
-      bucketId: process.env.B2_BUCKET_ID!,
+      // bucketId: process.env.B2_BUCKET_ID!,
+      bucketId: "bbff04e19a9ef1c0926e081a",
       fileNamePrefix: file.name,
       validDurationInSeconds: 3600, // 1 hour
     });
 
-    const signedUrl = `https://f004.backblazeb2.com/file/${process.env.NEXT_PUBLIC_B2_BUCKET_NAME}/${encodeURIComponent(file.name)}?Authorization=${authData.authorizationToken}`;
+    const signedUrl = `https://f004.backblazeb2.com/file/tasks-bucket/${encodeURIComponent(file.name)}?Authorization=${authData.authorizationToken}`;
 
     return NextResponse.json({
-      bucketName: process.env.NEXT_PUBLIC_B2_BUCKET_NAME,
+      bucketName: "tasks-bucket",
       fileName: file.name,
     });
   } catch (error) {

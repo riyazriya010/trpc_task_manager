@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
     await b2.authorize();
 
     const { data: authData } = await b2.getDownloadAuthorization({
-      bucketId: process.env.B2_BUCKET_ID!,
+      // bucketId: process.env.B2_BUCKET_ID!,
+      bucketId: "bbff04e19a9ef1c0926e081a",
       fileNamePrefix: fileName,
       validDurationInSeconds: 3600, // 1 hour this link will valid
     });
