@@ -13,12 +13,12 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import { db } from "../db";
 
-export const createTRPCContext = async (opts: { req?: Request }) => {
+export const createTRPCContext = async (opts: { req?: Request, headers?: Headers }) => {
   return {
     // You can add any context you want here
     // For example, you could access headers from the request:
     db,
-    headers: opts.req?.headers,
+    headers: opts.headers ?? opts.req?.headers,
   };
 };
 

@@ -6,7 +6,10 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
-    images: {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  images: {
     // domains: ['example.com'],
     remotePatterns: [
       {

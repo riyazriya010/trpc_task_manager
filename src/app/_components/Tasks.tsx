@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import Pagination from "./ui/Pagination";
-import { api } from "~/trpc/react";
+// import { api } from "~/trpc/react";
+import { api } from "../../utils/api";
 import { ToastContainer, Slide, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
