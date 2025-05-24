@@ -73,7 +73,8 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 
 function getBaseUrl() {
   if (typeof window !== "undefined") return window.location.origin;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  let vercelUrl = process.env.VERCEL_URL || "https://trpc-task-manager.vercel.app"
+  if (vercelUrl) return `https://${vercelUrl}`;
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 
