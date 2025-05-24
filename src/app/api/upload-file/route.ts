@@ -1,4 +1,3 @@
-// src/app/api/upload/route.ts
 import { b2 } from "../../../lib/b2"
 import { NextResponse } from 'next/server';
 
@@ -28,7 +27,7 @@ export async function POST(req: Request) {
       hash: 'do_not_verify',
     });
 
-    // 🔒 Generate signed download URL for private access
+    // Generate signed download URL for private access
     const { data: authData } = await b2.getDownloadAuthorization({
       bucketId: process.env.B2_BUCKET_ID!,
       fileNamePrefix: file.name,
@@ -37,7 +36,6 @@ export async function POST(req: Request) {
 
     const signedUrl = `https://f004.backblazeb2.com/file/${process.env.NEXT_PUBLIC_B2_BUCKET_NAME}/${encodeURIComponent(file.name)}?Authorization=${authData.authorizationToken}`;
 
-    // return NextResponse.json({ fileUrl: signedUrl });
     return NextResponse.json({
       bucketName: process.env.NEXT_PUBLIC_B2_BUCKET_NAME,
       fileName: file.name,

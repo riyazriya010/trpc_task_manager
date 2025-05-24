@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { tasks } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export const taskRouter = createTRPCRouter({
   create: publicProcedure
@@ -24,7 +24,7 @@ export const taskRouter = createTRPCRouter({
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.select().from(tasks);
+    return ctx.db.select().from(tasks).orderBy(desc(tasks.createdAt));
   }),
 
   getById: publicProcedure

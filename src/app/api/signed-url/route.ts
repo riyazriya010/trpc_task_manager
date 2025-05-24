@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     const { data: authData } = await b2.getDownloadAuthorization({
       bucketId: process.env.B2_BUCKET_ID!,
       fileNamePrefix: fileName,
-      validDurationInSeconds: 3600, // 1 hour
+      validDurationInSeconds: 3600, // 1 hour this link will valid
     });
 
     const signedUrl = `https://f004.backblazeb2.com/file/${bucketName}/${encodeURIComponent(fileName)}?Authorization=${authData.authorizationToken}`;
