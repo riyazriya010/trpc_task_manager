@@ -61,5 +61,6 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 function getBaseUrl() {
   if (typeof window !== "undefined") return window.location.origin;
   let vercelUrl = process.env.VERCEL_URL ?? "http://localhost:3000";
-  return `https://${vercelUrl}`;
+  // return `https://${vercelUrl}`;  
+  return "http://localhost:3000" 
 }

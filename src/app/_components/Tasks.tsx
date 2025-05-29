@@ -58,7 +58,7 @@ export default function Tasks() {
 
   const isUpdating = updateTask.isPending;
 
-  const TaskPerPage = 1;
+  const TaskPerPage = 2;
   const filteredTasks = useMemo(() => {
     if (!tasks) return [];
     if (statusFilter === 'all') return tasks;
